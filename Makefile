@@ -9,6 +9,7 @@ ifdef DEBUG
 	CFLAGS = -c -std=c11 -Wall -g -O0 -I$(INCDIR)
 else
 	CFLAGS = -std=c11 -Wall -I$(INCDIR)
+endif
 
 SRCLIST = $(wildcard $(SRCDIR)*.c)
 OBJLIST = $(basename $(SRCLIST))
