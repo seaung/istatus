@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 	char *conf = {0};
 
 	static struct option long_options[] = {
-		{"config", required_argument, NULL, 'r'},
+		{"config", required_argument, NULL, '-'},
 		{"version", no_argument, NULL, '-'},
 		{"help", no_argument, NULL, '-'}
 	};
