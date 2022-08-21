@@ -2,15 +2,29 @@
 #include <string.h>
 #include <unistd.h>
 #include <getopt.h>
+#include "dictionary.h"
+#include "iniparser.h"
+#include "../include/mqtto.h"
+#include "../include/config.h"
 
 #define VERSION "1.0.0#dev"
 
-
 int main(int argc, char *argv[]) {
+	int iret;
 	int index_options = 0;
 	int coption = 0;
+	int port;
+	int keepalive;
+
 	char *options_string = "c:vh";
 	char *conf = {0};
+	const char *host;
+	const char *topic;
+	const char *uri;
+	char *message;
+
+	dictionary *ini = NULL;
+	MQTTClient client;
 
 	static struct option long_options[] = {
 		{"config", required_argument, NULL, '-'},
@@ -87,6 +101,31 @@ int main(int argc, char *argv[]) {
 
 	printf("load config file success!\n");
 	printf("the file is : %s\n", conf);
+
+	iret = load_config(ini, conf);
+	if(iret == -1) {
+		fprintf(stderr, "load config error\n");
+		return -1;
+	}
+
+	host = iniparser_getstring(ini, "mqtt:host", "127.0.0.1");
+	topic = iniparser_getstring(ini, "mqtt:topic", "status");
+	port = iniparser_getint(ini, "mqtt:host", 1883);
+	keepalive = iniparser_getint(ini, "mqtt:keepalive", 600);
+
+	iniparser_freedict(ini);
+
+	sprintf((char *)uri, "%s:%d", host, port);
+
+	iret = connect_mqtt(client, uri, "istatus", keepalive);
+	if(iret == -1) {
+		printf("connect mqtt server error\n");
+		exit(-1);
+	}
+
+	message = "hello world\n";
+
+	publish_message(client, topic, 0, message, strlen(message));
 
 	return 0;
 }

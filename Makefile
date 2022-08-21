@@ -6,9 +6,9 @@ SRCDIR = $(TOPDIR)/src/
 INCDIR = $(TOPDIR)/include/
 
 ifdef DEBUG
-	CFLAGS = -c -std=c11 -Wall -g -O0 -I$(INCDIR)
+	CFLAGS = -c -std=c11 -Wall -g -O0 -I$(INCDIR) -lpaho-mqtt3c
 else
-	CFLAGS = -std=c11 -Wall -I$(INCDIR)
+	CFLAGS = -std=c11 -Wall -I$(INCDIR) -lpaho-mqtt3c
 endif
 
 SRCLIST = $(wildcard $(SRCDIR)*.c)
@@ -19,7 +19,7 @@ OBJ = $(addprefix $(OBJDIR),$(OBJTEMP2))
 BINDIR = $(TOPDIR)/bin/
 BIN = $(BINDIR)istatus
 
-all:CHECKDIR APP_NAME distr
+all:CHECKDIR APP_NAME
 
 CHECKDIR:
 	mkdir -p $(OBJDIR) $(BINDIR)
@@ -31,6 +31,5 @@ $(OBJDIR)%.o:$(SRCDIR)%.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 .PHONY:clean
-
 clean:
 	rm -rf $(OBJDIR) $(BINDIR)

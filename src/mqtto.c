@@ -12,7 +12,7 @@ void delivered(void *context, MQTTClient_deliveryToken token) {
 	delivery_token = token;
 }
 
-int publish_message(MQTTClient client, char *topic, int qos, char *msg, int len) {
+int publish_message(MQTTClient client, const char *topic, int qos, char *msg, int len) {
 	MQTTClient_deliveryToken token;
 	MQTTClient_message publish_msg = MQTTClient_message_initializer;
 
@@ -56,7 +56,6 @@ int connect_mqtt(MQTTClient *client, const char *uri, const char *client_id, uns
 	connect_options.cleansession = 0;
 
 	if((code = MQTTClient_connect(client, &connect_options)) != MQTTCLIENT_SUCCESS) {
-		printf("connect to mqtt server error\n");
 		return -1;
 	}
 

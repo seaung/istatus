@@ -11,6 +11,6 @@ int connect_mqtt(MQTTClient *client, const char *uri, const char *client_id, uns
 
 int message_arrived(void *context, char *topic, int topic_len, MQTTClient_message *message);
 
-int publish_message(MQTTClient client, char *topic, int qos, char *msg, int len);
+int publish_message(MQTTClient client, const char *topic, int qos, char *msg, int len);
 
 #endif
