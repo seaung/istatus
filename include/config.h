@@ -2,7 +2,11 @@
 #define __CONFIG_H_
 
 #include "iniparser.h"
+#include "psutil.h"
 
-int load_config(dictionary *ini, const char *filename);
+#define MAX_MSG_LEN 4096
+
+int load_config(dictionary **ini, const char *filename);
+char* build_status_message(dictionary *ini);
 
 #endif
